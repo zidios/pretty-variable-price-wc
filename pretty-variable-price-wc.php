@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 function prettyPrice(){
+    wp_enqueue_script('mainJS', plugins_url( 'assets/js/main.js', __FILE__ ));
     wp_enqueue_style("mainsstyle", plugins_url( 'assets/css/style.css', __FILE__ ) );
     add_shortcode( 'show_pretty_price', 'show_pretty_price' );
 }
@@ -35,6 +36,7 @@ function show_pretty_price( $atts ){
         $attrs_str = '';
         switch (get_class($product)){
             case 'WC_Product_Variable':
+                echo '<div id="pretty_product_type" class="variable" style="display: none;"></div>';
                 $product_variations = $product->get_available_variations();
                 foreach ($product_variations as $variation){
                     if(!empty($variation['display_price'])) array_push($product_prices, $variation['display_price']);
@@ -45,6 +47,7 @@ function show_pretty_price( $atts ){
                 }
                 break;
             case 'WC_Product_Simple':
+                echo '<div id="pretty_product_type" class="simple" style="display: none;"></div>';
                 $product_price = $product->get_price();
                 $product_attrib = $product->get_attributes();
                 if(!empty($product_price)) array_push($product_prices, $product_price);

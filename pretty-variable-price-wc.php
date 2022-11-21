@@ -55,7 +55,7 @@ function show_pretty_price( $atts ){
                         $attrib_data = $attrib->get_data();
                         if(!empty($attrib_data) && !empty($attrib_data['value'])){
                             array_push($product_attrs, $attrib_data['value']);
-                        } elseif(!empty($attrib_data) && !empty($attrib_data['options'] && !empty($attrib_data['options'][0])){
+                        } elseif(!empty($attrib_data) && !empty($attrib_data['options']) && !empty($attrib_data['options'][0])){
                             array_push($product_attrs, $attrib_data['options'][0]);
                         }
 

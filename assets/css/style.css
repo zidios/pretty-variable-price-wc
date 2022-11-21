@@ -1,0 +1,4 @@
+.pretty_price_container{
+    display: grid;
+    text-align: right;
+}

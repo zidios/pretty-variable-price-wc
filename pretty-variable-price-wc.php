@@ -3,7 +3,7 @@
  * Plugin Name: Pretty variable product price
  * Description: Show price for variable product WC. Get only first variable attribute.
  * Author:      Удачин Владимир
- * Version:     0.1
+ * Version:     0.2
  * Requires PHP: 7.4
  *
  * License:     MIT
@@ -55,12 +55,20 @@ function show_pretty_price( $atts ){
                     reset($product_attrib);
                     $attrib = current($product_attrib);
                     if(is_object($attrib) && get_class($attrib) == 'WC_Product_Attribute'){
-                        $attrib_data = $attrib->get_data();
-                        if(!empty($attrib_data) && !empty($attrib_data['value'])){
-                            array_push($product_attrs, $attrib_data['value']);
-                        } elseif(!empty($attrib_data) && !empty($attrib_data['options']) && !empty($attrib_data['options'][0])){
-                            array_push($product_attrs, $attrib_data['options'][0]);
+                        if($attrib['is_taxonomy']){
+                            $values = wc_get_product_terms( $product->get_id(), $attrib['name'], array( 'fields' => 'names' ) );
+                            if(isset($values[0])) {
+                                array_push($product_attrs, $values[0]);
+                            }
+                        }else{
+                            $attrib_data = $attrib->get_data();
+                            if(!empty($attrib_data) && !empty($attrib_data['value'])){
+                                array_push($product_attrs, $attrib_data['value']);
+                            } elseif(!empty($attrib_data) && !empty($attrib_data['options']) && !empty($attrib_data['options'][0])){
+                                array_push($product_attrs, $attrib_data['options'][0]);
+                            }
                         }
+
 
                     }
                 }
